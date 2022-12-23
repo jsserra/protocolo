@@ -12,6 +12,7 @@ import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
@@ -35,6 +36,16 @@ public class SetoresWs {
     public List<Setores> getListaSetores() {
         try {
             return daoSetores.getSetores();
+        } catch (Exception exception) {
+            throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build());
+        }
+    }
+
+    @GET
+    @Path("getSetorPorId/{id}")
+    public Setores getSetorPorId(@PathParam("id") Integer id ) {
+        try {
+            return daoSetores.getSetorPorId(id);
         } catch (Exception exception) {
             throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build());
         }

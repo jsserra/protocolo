@@ -17,22 +17,22 @@ import javax.persistence.Query;
  */
 @Stateless
 public class SetoresDao {
-    
+
     @PersistenceContext
     EntityManager em;
-    
-    public List<Setores> getSetores(){
+
+    public List<Setores> getSetores() {
         Query q = em.createQuery("select s from Setores s order by s.nome");
-        return q.getResultList();        
+        return q.getResultList();
     }
-    
-        public Setores getSetorPorId(Integer id){
-        Query q = em.createQuery("select s from Setores s where s.id = :id");
-        q.setParameter("id", id);
-        List<Setores> setores = q.getResultList();
-        if( setores.isEmpty()){
-            return null;
+
+    public Setores getSetorPorId(Integer id) throws Exception {
+        Setores setor = em.find(Setores.class, id);
+        if (!(setor == null)){
+            return setor;
+        }else{
+            throw new Exception("Setor Inválido");
         }
-        return (Setores) setores.get(0);
+        
     }
 }

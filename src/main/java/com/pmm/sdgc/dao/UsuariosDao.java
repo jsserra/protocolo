@@ -73,20 +73,15 @@ public class UsuariosDao {
         
         if (getUsuarioPorCPF(cpf) != null) throw new Exception("O CFP informado já existe");
         
-        Setores set = em.find(Setores.class, setor);
-        for (Setores s : daoSetores.getSetores()) {
-            if (set.equals(s)){
-                usuario.setSetorId(s.getId());
-            }else{
-                throw new Exception("Setor inválido");
-            }
-            
-        }
+        Setores set = daoSetores.getSetorPorId(setor);
+       
         usuario.setChave(chave);
         usuario.setCpf(cpf);
         usuario.setNome(nome);
         usuario.setSenha(Usuarios.encrypt(senha));
+        usuario.setSetorId(set.getId());
         usuario.setAcessoId(acesso);
+        usuario.setStatus(Boolean.TRUE);
         
         em.persist(usuario);        
     
