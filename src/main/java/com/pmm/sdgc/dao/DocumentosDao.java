@@ -47,6 +47,13 @@ public class DocumentosDao {
         return doc.get(0);
     }
 
+    public Documentos getDocumentoPorId(Integer id) {
+        Query q = em.createQuery("select d from Documentos d where d.id = :id");
+        q.setParameter("id", id);
+        List<Documentos> doc = q.getResultList();
+        return doc.get(0);
+    }
+
     public List<Documentos> getDocumentosFiltro(String ano, Integer idStatus, Integer idTipo) throws Exception {
 
         Status status = null;

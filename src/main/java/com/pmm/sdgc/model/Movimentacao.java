@@ -4,10 +4,14 @@
  */
 package com.pmm.sdgc.model;
 
+import com.pmm.sdgc.converter.LocalDateAttributeConverter;
+import com.pmm.sdgc.converter.LocalDateTimeAttributeConverter;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -32,12 +36,15 @@ public class Movimentacao implements Serializable {
     private Integer setor;
 
     @Column(name = "data_entrada")
-    private LocalDate dataEntrada;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    private LocalDateTime dataEntrada;
 
     @Column(name = "data_saida")
-    private LocalDate dataSaida;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    private LocalDateTime dataSaida;
 
     @Column(name = "data_recebido")
+    @Convert(converter = LocalDateAttributeConverter.class)
     private LocalDate dataRecibo;
 
     private String encaminhamento;
@@ -70,19 +77,19 @@ private Boolean ativo;
         this.id = id;
     }
 
-    public LocalDate getDataEntrada() {
+    public LocalDateTime getDataEntrada() {
         return dataEntrada;
     }
 
-    public void setDataEntrada(LocalDate dataEntrada) {
+    public void setDataEntrada(LocalDateTime dataEntrada) {
         this.dataEntrada = dataEntrada;
     }
 
-    public LocalDate getDataSaida() {
+    public LocalDateTime getDataSaida() {
         return dataSaida;
     }
 
-    public void setDataSaida(LocalDate dataSaida) {
+    public void setDataSaida(LocalDateTime dataSaida) {
         this.dataSaida = dataSaida;
     }
 

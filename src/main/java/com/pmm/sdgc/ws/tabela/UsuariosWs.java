@@ -11,11 +11,14 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.jboss.logging.annotations.Param;
 
 /**
  *
@@ -37,6 +40,47 @@ public class UsuariosWs {
             return daoUsuarios.getListaUsuarios();
         } catch (Exception exception) {
             throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build());
+        }
+    }
+
+    @GET
+    @Path("getUsuarioPorCPF/{cpf}")
+    public Usuarios getUsuarioPorCPF(@PathParam("cpf") String cpf) {
+        try {
+            return daoUsuarios.getUsuarioPorCPF(cpf);
+        } catch (Exception exception) {
+            throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build());
+        }
+    }
+
+    @GET
+    @Path("getUsuarioPorChave/{chave}")
+    public Usuarios getUsuarioPorChave(@PathParam("chave") String chave) {
+        try {
+            return daoUsuarios.getUsuarioPorChave(chave);
+        } catch (Exception exception) {
+            throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build());
+        }
+    }
+
+    @GET
+    @Path("getUsuarioPorNome/{nome}")
+    public Usuarios getUsuarioPorNome(@PathParam("nome") String nome) {
+        try {
+            return daoUsuarios.getUsuarioPorNome(nome);
+        } catch (Exception exception) {
+            throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build());
+        }
+    }
+
+    @POST
+    @Path("postUsuarioCadastro/{chave}/{cpf}/{nome}/{setor}/{senha}/{acesso}")
+    public Response postUsuarioCadastro(@PathParam("chave") String chave, @PathParam("cpf") String cpf, @PathParam("nome") String nome, @PathParam("setor") Integer setor, @PathParam("senha") String senha, @PathParam("acesso") Integer acesso) {
+        try {
+            daoUsuarios.postUsuarioCadastro(chave, cpf, nome, setor, senha, acesso);
+            return Response.ok().build();
+        } catch (Exception ex) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
     }
 }

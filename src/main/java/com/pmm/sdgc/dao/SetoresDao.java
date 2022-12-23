@@ -22,7 +22,17 @@ public class SetoresDao {
     EntityManager em;
     
     public List<Setores> getSetores(){
-        Query q = em.createQuery("select s from Setores s");
+        Query q = em.createQuery("select s from Setores s order by s.nome");
         return q.getResultList();        
+    }
+    
+        public Setores getSetorPorId(Integer id){
+        Query q = em.createQuery("select s from Setores s where s.id = :id");
+        q.setParameter("id", id);
+        List<Setores> setores = q.getResultList();
+        if( setores.isEmpty()){
+            return null;
+        }
+        return (Setores) setores.get(0);
     }
 }

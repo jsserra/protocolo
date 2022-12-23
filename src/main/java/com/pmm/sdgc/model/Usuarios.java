@@ -5,20 +5,12 @@
 package com.pmm.sdgc.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.ws.rs.core.Response.Status;
+
 
 /**
  *
@@ -48,8 +40,8 @@ public class Usuarios implements Serializable {
     @Column(name = "status")
     private Boolean status;
 
-    @Column(name = "trocasenha")
-    private Boolean trocaSenha;
+    // @Column(name = "trocasenha")
+    // private Boolean trocaSenha;
 
     public Integer getId() {
         return id;
@@ -115,13 +107,13 @@ public class Usuarios implements Serializable {
         this.status = status;
     }
 
-    public Boolean getTrocaSenha() {
+  /*  public Boolean getTrocaSenha() {
         return trocaSenha;
     }
 
     public void setTrocaSenha(Boolean trocaSenha) {
-        this.trocaSenha = trocaSenha;
-    }
+        this.trocaSenha = trocaSenha; 
+    } */
 
     public static String encrypt(String passwd) {
         String sign = passwd;
