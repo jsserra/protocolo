@@ -7,11 +7,7 @@ package com.pmm.sdgc.dao;
 import com.pmm.sdgc.model.Documentos;
 import com.pmm.sdgc.model.Status;
 import com.pmm.sdgc.model.TipoDocumento;
-import java.text.DateFormat;
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -52,6 +48,20 @@ public class DocumentosDao {
         q.setParameter("id", id);
         List<Documentos> doc = q.getResultList();
         return doc.get(0);
+    }
+
+    public List<Documentos> getDocumentosPorAno(String ano) {
+        Query q = em.createQuery("select d from Documentos d where d.docAno = :ano");
+        q.setParameter("ano", ano);
+        List<Documentos> doc = q.getResultList();
+        return doc;
+    }
+    
+    public List<Documentos> getDocumentosPorAssunto(String assunto) {
+        Query q = em.createQuery("select d from Documentos d where d.assunto = :assunto");
+        q.setParameter("assunto", assunto);
+        List<Documentos> doc = q.getResultList();
+        return doc;
     }
 
     public List<Documentos> getDocumentosFiltro(String ano, Integer idStatus, Integer idTipo) throws Exception {
@@ -101,4 +111,39 @@ public class DocumentosDao {
         em.persist(documento);
 
     }
+    
+    public void postDocumentoArquivar(Integer id) throws Exception{
+        Documentos doc = getDocumentoPorId(id);
+        Status status = daoStatus.getStatusPorId(2);
+        
+        if(doc == null){
+            throw new Exception("Documento não encontrado!");
+        }
+        
+        if(doc.getStatus() == daoStatus.getStatusPorId(2)){
+            throw new Exception("Documento já está arquivado!");
+        }
+        
+        doc.setStatus(status);
+        
+        em.merge(doc);    
+    }
+
+    public void postDocumentoDesarquivar(Integer id) throws Exception{
+        Documentos doc = getDocumentoPorId(id);
+        Status status = daoStatus.getStatusPorId(1);
+        
+        if(doc == null){
+            throw new Exception("Documento não encontrado!");
+        }
+        
+        if(doc.getStatus() == daoStatus.getStatusPorId(1)){
+            throw new Exception("Documento já está ativo!");
+        }
+        
+        doc.setStatus(status);
+        
+        em.merge(doc);    
+    }
+
 }

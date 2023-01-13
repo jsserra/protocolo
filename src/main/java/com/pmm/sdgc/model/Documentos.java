@@ -5,15 +5,12 @@
 package com.pmm.sdgc.model;
 
 import com.pmm.sdgc.converter.LocalDateAttributeConverter;
-import com.pmm.sdgc.converter.LocalDateConverter1;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Convert;
-import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;

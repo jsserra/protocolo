@@ -5,11 +5,9 @@
 package com.pmm.sdgc.ws.tabela;
 
 import com.pmm.sdgc.dao.DocumentosDao;
-import com.pmm.sdgc.dao.SetoresDao;
 import com.pmm.sdgc.dao.StatusDao;
 import com.pmm.sdgc.dao.TipoDocumentoDao;
 import com.pmm.sdgc.model.Documentos;
-import com.pmm.sdgc.model.Setores;
 import com.pmm.sdgc.model.Status;
 import com.pmm.sdgc.model.TipoDocumento;
 import java.util.List;
@@ -65,6 +63,26 @@ public class DocumentosWs {
     }
 
     @GET
+    @Path("getDocumentosPorAno/{ano}")
+    public List<Documentos> getDocumentosPorAno(@PathParam("ano") String ano) {
+        try {
+            return daoDocumentos.getDocumentosPorAno(ano);
+        } catch (Exception exception) {
+            throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build());
+        }
+    }
+
+    @GET
+    @Path("getDocumentosPorAssunto/{assunto}")
+    public List<Documentos> getDocumentosPorAssunto(@PathParam("assunto") String assunto) {
+        try {
+            return daoDocumentos.getDocumentosPorAssunto(assunto);
+        } catch (Exception exception) {
+            throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build());
+        }
+    }
+
+    @GET
     @Path("getDocumentosFiltro/{ano}/{status}/{tipo}")
     public List<Documentos> getDocumentosFiltro(@PathParam("ano") String ano, @PathParam("status") Integer status, @PathParam("tipo") Integer tipo) {
         try {
@@ -79,6 +97,28 @@ public class DocumentosWs {
    public Response postDocumento(@PathParam("numero") String numero, @PathParam("ano") String ano, @PathParam("assunto") String assunto, @PathParam("origem") String origem, @PathParam("status") Integer idStatus, @PathParam("tipo") Integer idTipo){
        try{
            daoDocumentos.postDocumentoCadastro(numero, ano, assunto, origem, idStatus, idTipo);
+           return Response.ok().build();
+       }catch (Exception ex){
+           return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+       }
+   }
+
+   @POST
+   @Path("postDocumentoArquivar/{id}")
+   public Response postDocumentoArquivar(@PathParam("id") Integer id){
+       try{
+           daoDocumentos.postDocumentoArquivar(id);
+           return Response.ok().build();
+       }catch (Exception ex){
+           return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+       }
+   }
+
+   @POST
+   @Path("postDocumentoDesarquivar/{id}")
+   public Response postDocumentoDesarquivar(@PathParam("id") Integer id){
+       try{
+           daoDocumentos.postDocumentoDesarquivar(id);
            return Response.ok().build();
        }catch (Exception ex){
            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();

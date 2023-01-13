@@ -18,7 +18,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.jboss.logging.annotations.Param;
+
 
 /**
  *
@@ -64,12 +64,44 @@ public class UsuariosWs {
     }
 
     @GET
+    @Path("getUsuarioLogin/{login}/{senha}")
+    public Boolean getUsuarioLogin(@PathParam("login") String login, @PathParam("senha") String senha) {
+        try {
+            return daoUsuarios.getUsuarioLogin(login, senha);
+        } catch (Exception exception) {
+            throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build());
+        }
+    }
+
+    @GET
     @Path("getUsuarioPorNome/{nome}")
     public Usuarios getUsuarioPorNome(@PathParam("nome") String nome) {
         try {
             return daoUsuarios.getUsuarioPorNome(nome);
         } catch (Exception exception) {
             throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build());
+        }
+    }
+
+    @GET
+    @Path("getUsuarioPorMatCpfNome/{matricula}/{cpf}/{nome}")
+    public Usuarios getUsuarioPorMatCpfNome(@PathParam("matricula") String matricula, @PathParam("cpf") String cpf, @PathParam("nome")String nome){
+        try {
+            return daoUsuarios.getUsuarioPorMatCpfNome(matricula,cpf,nome);
+        } catch (Exception exception) {
+            throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build());
+        }
+    }
+
+    //POST
+    @POST
+    @Path("postUpdateStatusUsuario/{id}/{status}")
+    public Response postUpdateStatusUsuario(@PathParam("id") Integer idUsuario, @PathParam("status") Boolean status) {
+        try {
+            daoUsuarios.postUpdateStatusUsuario(idUsuario, status);
+            return Response.ok().build();
+        } catch (Exception ex) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
     }
 
